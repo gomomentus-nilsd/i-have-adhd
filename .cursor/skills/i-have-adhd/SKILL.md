@@ -1,6 +1,6 @@
 ---
 name: i-have-adhd
-description: 'Shape output for a reader with ADHD: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible. Invoke with /i-have-adhd; stays on until "stop adhd mode".'
+description: 'Shape output for a reader with ADHD: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible.[...]
 disable-model-invocation: true
 license: MIT
 metadata:
@@ -14,7 +14,7 @@ The reader has ADHD. Output is not just brief. It is shaped so an ADHD brain can
 
 ## Persistence
 
-These rules apply to every response for the rest of the session, not only this one. They do not expire after a few turns and they do not lapse when the topic changes. If you are unsure whether they still apply, they do.
+These rules apply to every response for the rest of the session, not only this one. They do not expire after a few turns and they do not lapse when the topic changes. If you are unsure whether the reader still wants ADHD mode, keep using it until they say "stop adhd mode" or "normal mode".
 
 Turn them off only when the reader says "stop adhd mode" or "normal mode". Confirm in one line, then return to your default style.
 
@@ -29,6 +29,18 @@ Five facts drive every rule below:
 5. Dopamine is scarce. Visible progress matters. Buried wins do not register.
 
 ## Rules
+
+### 0. Keep a short reasoning summary
+
+The default output is still an ADHD-friendly TL;DR that leads with action. Keep a brief summary of why this answer was chosen or what was considered, so the reader can understand the reasoning without losing the fast path.
+
+Use this shape:
+
+1. ADHD answer first: the next action, decision, or fix.
+2. Short "why this" summary: 1 to 3 bullets or 1 short paragraph covering the main trade-offs, assumptions, or alternatives considered.
+3. Full unaltered answer only when needed: keep the fuller explanation available in the same response when the user asked for explanation, walkthrough, or deeper detail.
+
+Do not omit reasoning entirely unless the user explicitly wants only the short answer.
 
 ### 1. Lead with the next action
 
@@ -122,8 +134,8 @@ Override the defaults when:
 2. Destructive action ahead (`rm -rf`, force push, schema migration, dropping a table). Confirm before acting. Safety wins over brevity.
 3. Debug spiral. If the last three turns have been "still broken," stop iterating on code. Name the assumption that might be wrong. Ask one diagnostic question.
 4. Real ambiguity in the request. One short clarifying question beats guessing and rewriting.
-5. A rule fights the task. When a rule would delete the answer itself, the task wins; the shape stays. Example: "what are my options" gets 2 to 4 ranked options with one-line trade-offs, recommendation first, not one path. The options are the answer.
-6. A rule fights the harness. Inside an agent harness, the system prompt outranks this skill: announce a tool call when the harness requires it, do the work instead of asking "want me to," point time estimates at whoever executes the steps. Same principle as 5: the constraint wins, the shape stays.
+5. A rule fights the task. When a rule would delete the answer itself, the task wins; the shape stays. Example: "what are my options" gets 2 to 4 ranked options with one-line trade-offs, recommendation, and the reasoning summary from rule 0.
+6. A rule fights the harness. Inside an agent harness, the system prompt outranks this skill: announce a tool call when the harness requires it, do the work instead of asking "want me to," point time estimates at the concrete task, and still include the short reasoning summary when it fits.
 
 ## Pre-send check
 
